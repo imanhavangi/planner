@@ -33,7 +33,7 @@ class _MonthState extends State<Month> {
   // List<bool> importantReadOnly = List<bool>.generate(100, (index) => false);
 
   void _creat(String title, bool done){
-    important imp = new important('', true, Icons.save, Colors.red, false);
+    important imp = new important('', false, Icons.save, Colors.red, false, Colors.white);
     importants.add(imp);
   }
 
@@ -213,8 +213,8 @@ class _MonthState extends State<Month> {
                             ),
                             child: IconButton(icon: Icon(Icons.delete, color: Colors.black,), padding: EdgeInsets.all(0), iconSize: 22,
                               onPressed: (){setState(() {
-                                print('salam: ');
-                                print(index);
+                                // print('salam: ');
+                                // print(index);
                                 importants.removeAt(index);
                               });},
                             ),
@@ -266,23 +266,31 @@ class _MonthState extends State<Month> {
                             width: 25,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(5)),
-                              color: Colors.grey,
+                              border: Border.all(color: Colors.grey),
+                            ),
+                            child: IconButton(icon: Icon(Icons.check_circle,color: importants[index].doneColor,), padding: EdgeInsets.all(0),
+                              onPressed: (){setState(() {
+                                if(importants[index].done){
+                                  importants[index].done = false;
+                                  importants[index].doneColor = Colors.white;
+                                }else{
+                                  importants[index].done = true;
+                                  importants[index].doneColor = Colors.green;
+                                }
+                              });},
                             ),
                           )
                         ],
                       ),
-                      // child: TextField(
-                      //   textDirection: ui.TextDirection.rtl,
-                      //   readOnly: false,
-                      //   decoration: InputDecoration(
-                      //       border: OutlineInputBorder()
-                      //   ),
-                      // ),
                     );
                   },
                 ),
               ),
           ),
+          Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+
+          )
         ],
       ),
     );
