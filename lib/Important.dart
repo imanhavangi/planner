@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class important {
+class Important {
   String title;
   bool done;
   IconData icon;
@@ -9,7 +9,7 @@ class important {
   TextEditingController controller;
   Color doneColor;
 
-  important(String title, bool done, IconData icon, Color iconColor, bool readOnly, Color doneColor){
+  Important(String title, bool done, IconData icon, Color iconColor, bool readOnly, Color doneColor){
     this.title = title;
     this.done = done;
     this.icon = icon;

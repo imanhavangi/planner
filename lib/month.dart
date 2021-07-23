@@ -1,11 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_direction/auto_direction.dart';
-import 'package:planner/important.dart';
+import 'package:planner/Important.dart';
 import 'dart:ui' as ui;
+
+import 'package:planner/TodoDay.dart';
 
 class Month extends StatefulWidget {
 
@@ -25,7 +25,8 @@ class _MonthState extends State<Month> {
   bool _isReadOnly = true;
   DateTime _dateTime = DateTime.now();
   String text = "";
-  List<important> importants = new List<important>();
+  List<Important> importants = new List<Important>();
+  List<TodoDay> todoDays = new List<TodoDay>();
   var myController = TextEditingController();
 
   // List<IconData> importantIcon = List<IconData>.generate(100, (index) => Icons.save);
@@ -33,8 +34,12 @@ class _MonthState extends State<Month> {
   // List<bool> importantReadOnly = List<bool>.generate(100, (index) => false);
 
   void _creat(String title, bool done){
-    important imp = new important('', false, Icons.save, Colors.red, false, Colors.white);
+    Important imp = new Important("", false, Icons.save, Colors.red, false, Colors.white);
     importants.add(imp);
+  }
+  void _createTodoDay(){
+    TodoDay todoDay = new TodoDay("", false, false, 60, TaskType.study, Necessity.mandatory, Period.morning);
+    todoDays.add(todoDay);
   }
 
   _selectDate(BuildContext context) async {
@@ -174,7 +179,7 @@ class _MonthState extends State<Month> {
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                     color: Colors.blue,
                   ),
-                  child: IconButton(icon: Icon(Icons.add, color: Colors.black,), padding: EdgeInsets.only(top: 1), iconSize: 24,
+                  child: IconButton(icon: Icon(Icons.add, color: Colors.black,), padding: EdgeInsets.all(0),
                     onPressed: (){
                     setState(() {
                       _creat('salam', true);
@@ -288,8 +293,94 @@ class _MonthState extends State<Month> {
               ),
           ),
           Padding(
+            padding: EdgeInsets.only(left: 40, right: 20, top: 10),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  height: 25,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    color: Colors.grey,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'To-Do List',
+                  ),
+                ),
+                Container(
+                  height: 25,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    color: Colors.blue,
+                  ),
+                  child: IconButton(icon: Icon(Icons.add, color: Colors.black,), padding: EdgeInsets.all(0),
+                    onPressed: (){setState(() {
+                      _createTodoDay();
+                    });},
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
             padding: EdgeInsets.only(left: 20, right: 20),
-
+            child: Container(
+              height: 250,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: ListView.builder(
+                padding: EdgeInsets.all(10),
+                scrollDirection: Axis.vertical,
+                itemCount: todoDays.length,
+                itemBuilder: (BuildContext context, int index){
+                  return Container(
+                    padding: EdgeInsets.only(bottom: 5),
+                    height: 30,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.redAccent,
+                          ),
+                          child: IconButton(icon: Icon(Icons.delete, color: Colors.black,), padding: EdgeInsets.all(0),
+                            onPressed: (){setState(() {
+                              todoDays.removeAt(index);
+                            });},
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          width: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            color: Colors.blue,
+                          ),
+                          child: IconButton(icon: Icon(Icons.edit, color: Colors.black,), padding: EdgeInsets.all(0),),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Container(
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           )
         ],
       ),
