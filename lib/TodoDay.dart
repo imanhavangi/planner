@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
 enum TaskType {
   work,
   study,
@@ -20,6 +24,7 @@ class TodoDay{
   String title;
   bool readOnly;
   bool done;
+  Color doneColor;
   int time;
   TaskType taskType;
   Necessity necessity;
@@ -33,5 +38,6 @@ class TodoDay{
     this.taskType = taskType;
     this.necessity = necessity;
     this.period = period;
+    this.doneColor = Colors.white;
   }
 }
